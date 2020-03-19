@@ -1,0 +1,27 @@
+version: '2'
+
+tasks:
+
+  build:
+    desc: Build executable
+    preconditions:
+      - which nim
+    cmds:
+      - nim c -o:nca src/nca.nim 
+
+  release:
+    desc: Build in release mode
+    preconditions:
+      - which nim
+    cmds:
+      - nim c -o:nca -d:release --opt:size --passC:-flto src/nca.nim 
+
+  all:
+    desc: Build for linux and MacOSX
+    cmds:
+      - nim c -o:nca -d:release --opt:size --passC:-flto src/nca.nim
+
+  clean:
+    desc: Clean up artifacts
+    cmds:
+      - rm nca
