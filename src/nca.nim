@@ -15,7 +15,7 @@ const
   reset = ansiResetCode
 
 const
-  version = "0.0.1"
+  version = "0.0.2"
   description = fmt"""
 Tired of entering your password everytime your computer falls asleep
 or after some time has passed but dont want to make security mad?

@@ -7,19 +7,20 @@ tasks:
     preconditions:
       - which nim
     cmds:
-      - nim c -o:nca src/nca.nim 
+      - nim c -o:nca -d:shellNoDebugCommand src/nca.nim 
 
   release:
     desc: Build in release mode
     preconditions:
       - which nim
     cmds:
-      - nim c -o:nca -d:release --opt:size --passC:-flto src/nca.nim 
+      - nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passC:-flto src/nca.nim 
+      - strip nca
 
   all:
     desc: Build for linux and MacOSX
     cmds:
-      - nim c -o:nca -d:release --opt:size --passC:-flto src/nca.nim
+      - nim c -o:nca -d:release --opt:size -d:shellNoDebugCommand --passC:-flto src/nca.nim
 
   clean:
     desc: Clean up artifacts
