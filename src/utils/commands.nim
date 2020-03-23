@@ -1,8 +1,8 @@
 import shell # DSL for shell commands
 
-proc connect*(connStr: string, profile: string) =
-  shell:
-    pipe:
+proc connect*(connStr: string, profile: string): string =
+  shellAssign:
+    result = pipe:
       printf ($connStr)
       "/opt/cisco/anyconnect/bin/vpn -s connect" ($profile)
 

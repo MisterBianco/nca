@@ -10,7 +10,6 @@ bin           = @["nca"]
 
 
 # Dependencies
-
 requires "nim >= 1.0.6"
 requires "keyring >= 0.1.1"
 requires "shell >= 0.3.0"

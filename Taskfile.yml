@@ -14,13 +14,8 @@ tasks:
     preconditions:
       - which nim
     cmds:
-      - nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passC:-flto src/nca.nim 
+      - nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passC:-flto --passL:-flto src/nca.nim 
       - strip nca
-
-  all:
-    desc: Build for linux and MacOSX
-    cmds:
-      - nim c -o:nca -d:release --opt:size -d:shellNoDebugCommand --passC:-flto src/nca.nim
 
   clean:
     desc: Clean up artifacts
