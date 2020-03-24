@@ -8,6 +8,7 @@ let
   userName* = $getpwuid(getuid()).pw_name
 
 proc keyDeletePassword*(profile: string) {.raises: [OSError, IOError, Defect, Exception].} =
+  echo "Warning: Deleting password!"
   deletePassword(profile, userName)
 
 

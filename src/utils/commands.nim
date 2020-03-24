@@ -1,8 +1,8 @@
 import shell # DSL for shell commands
 
-proc connect*(connStr: string, profile: string): string =
-  shellAssign:
-    result = pipe:
+proc connect*(connStr: string, profile: string) =
+  shell:
+    pipe:
       printf ($connStr)
       "/opt/cisco/anyconnect/bin/vpn -s connect" ($profile)
 
@@ -17,3 +17,8 @@ proc profiles*() =
       "/opt/cisco/anyconnect/bin/vpn hosts"
       """grep ">""""
       """cut -d " " -f 6"""
+
+proc status*() =
+  shell:
+    one:
+      "/opt/cisco/anyconnect/bin/vpn status"

@@ -1,13 +1,12 @@
 version: '2'
 
 tasks:
-
   build:
     desc: Build executable
     preconditions:
       - which nim
     cmds:
-      - nim c -o:nca -d:shellNoDebugCommand src/nca.nim 
+      - nim c -o:nca src/nca.nim 
 
   release:
     desc: Build in release mode

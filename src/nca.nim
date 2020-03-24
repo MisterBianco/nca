@@ -15,7 +15,7 @@ const
   reset = ansiResetCode
 
 const
-  version = "0.0.2"
+  version = "0.0.4"
   description = fmt"""
 Tired of entering your password everytime your computer falls asleep
 or after some time has passed but dont want to make security mad?
@@ -36,6 +36,7 @@ proc help(msg: string) =
   echo "  connect         Connect vpn given a [profile]"
   echo "  disconnect      Disconnect vpn"
   echo "  profiles        Attempt to list profiles"
+  echo "  status          Determine if you are connected or not"
   echo "  delete          Deletes a stored profile from keyring"
   echo ""
   echo fmt"{yellow}Arguments{reset}:"
@@ -89,7 +90,7 @@ when isMainModule:
   case command:
     of "connect":
       var password = keyGetPassword(profile)
-      echo connect(userName & r"\\n" & password & r"\\npush", profile)
+      connect(userName & r"\\n" & password & r"\\npush", profile)
 
     of "disconnect":
       disconnect()
@@ -99,6 +100,9 @@ when isMainModule:
 
     of "delete":
       keyDeletePassword(profile)
+
+    of "status":
+      status()
 
     else:
       help("Bad command: " & command)
