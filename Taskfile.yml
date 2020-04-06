@@ -13,7 +13,7 @@ tasks:
     preconditions:
       - which nim
     cmds:
-      - nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passC:-flto --passL:-flto src/nca.nim 
+      - nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passc:-flto src/nca.nim 
       - strip nca
 
   clean:

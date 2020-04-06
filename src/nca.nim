@@ -1,7 +1,8 @@
 import
   os,
   strformat,
-  terminal
+  terminal,
+  strutils
 
 import
   utils/keyhelper,
@@ -15,7 +16,7 @@ const
   reset = ansiResetCode
 
 const
-  version = "0.0.4"
+  version = readFile("VERSION").strip()
   description = fmt"""
 Tired of entering your password everytime your computer falls asleep
 or after some time has passed but dont want to make security mad?
@@ -29,15 +30,15 @@ proc title() {.inline.} =
   echo fmt"{red}NCA {green}Connect{reset} ({yellow}Nim Cisco Anyconnect{reset}) | {version}"
   echo "-----------------------------------------"
 
-proc help(msg: string) =
+proc help(msg: string = "") =
   echo description
   echo fmt"{green}Commands{reset}:"
   echo ""
-  echo "  connect         Connect vpn given a [profile]"
-  echo "  disconnect      Disconnect vpn"
-  echo "  profiles        Attempt to list profiles"
-  echo "  status          Determine if you are connected or not"
-  echo "  delete          Deletes a stored profile from keyring"
+  echo "  c, connect         Connect vpn given a [profile]"
+  echo "  d, disconnect      Disconnect vpn"
+  echo "  p, profiles        Attempt to list profiles"
+  echo "  s, status          Determine if you are connected or not"
+  echo "  D, delete          Deletes a stored profile from keyring"
   echo ""
   echo fmt"{yellow}Arguments{reset}:"
   echo ""
@@ -45,10 +46,12 @@ proc help(msg: string) =
   echo ""
   echo fmt"{yellow}Examples{reset}:"
   echo ""
+  echo "  ./nca c"
   echo "  ./nca connect WGU"
   echo "  ./nca connect PROFILE"
-  echo ""
-  echo fmt"{red}Error{reset}: " & msg
+  if msg != "":
+    echo ""
+    echo fmt"{red}Error{reset}: " & msg
 
   quit(QuitFailure)
 
@@ -56,7 +59,7 @@ proc help(msg: string) =
 proc argparser(): array[2, string] =
   case paramCount():
     of 0:
-      help("Bad command | example: nca connect [PROFILE]")
+      help()
     of 1:
       return [paramStr(1), "WGU"]
     of 2:
@@ -65,8 +68,13 @@ proc argparser(): array[2, string] =
       help("Bad parameter count")
 
 
-proc sanityCheck(): bool {.inline.} =
-  return fileExists("/opt/cisco/anyconnect/bin/vpn") and userName != "root"
+proc sanityCheck() {.inline.} =
+  if not fileExists("/opt/cisco/anyconnect/bin/vpn"):
+    echo "Missing vpn client"
+    quit(QuitFailure)
+  if userName == "root":
+    echo "Cant run as root."
+    quit(QuitFailure)
 
 
 proc handler() {.noconv.} =
@@ -76,10 +84,9 @@ proc handler() {.noconv.} =
 
 when isMainModule:
   setControlCHook(handler)
+
   title()
-  if not sanityCheck():
-    echo "Missing vpn client."
-    quit(QuitFailure)
+  sanityCheck()
 
   let 
     args = argparser()
@@ -88,20 +95,16 @@ when isMainModule:
     profile = args[1]
 
   case command:
-    of "connect":
+    of "c", "connect":
       var password = keyGetPassword(profile)
       connect(userName & r"\\n" & password & r"\\npush", profile)
-
-    of "disconnect":
+    of "d", "disconnect":
       disconnect()
-
-    of "profiles":
+    of "p", "profiles":
       profiles()
-
-    of "delete":
+    of "D", "delete":
       keyDeletePassword(profile)
-
-    of "status":
+    of "s", "status":
       status()
 
     else:

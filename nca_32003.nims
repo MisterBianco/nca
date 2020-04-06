@@ -1,3 +1,8 @@
+import system except getCommand, setCommand, switch, `--`,
+  packageName, version, author, description, license, srcDir, binDir, backend,
+  skipDirs, skipFiles, skipExt, installDirs, installFiles, installExt, bin, foreignDeps,
+  requires, task, packageName
+import nimscriptapi, strutils
 # Package
 import 
     strutils,
@@ -30,3 +35,5 @@ task release, "Build and publish a release":
     exec "strip nca"
     exec fmt"github-release create -t $GITHUB_TOKEN -o misterbianco -r nca --tag v{version}"
     exec fmt"github-release upload -t $GITHUB_TOKEN -o misterbianco -r nca --tag v{version} --file ./nca"
+
+onExit()
