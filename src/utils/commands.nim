@@ -14,14 +14,12 @@ proc run_process(command: string): int =
 
   let outStream = pid.outputStream
   var line = ""
-  var rez = ""
 
   while pid.running:
     try:
       let streamRes = outStream.readLine(line)
       if streamRes:
         echo line
-        rez = rez & "\n" & line
       else:
         # should mean stream is finished, i.e. process stoped
         sleep 10
