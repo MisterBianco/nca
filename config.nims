@@ -32,6 +32,7 @@ static:
   echo ""
   echo "------------------------------------------------------"
 
+
 task clean, "Clean artifacts":
     try:
         exec "rm nca"
@@ -82,6 +83,7 @@ task build, "Build command":
     when defined(arc):
         switch("gc", "arc")
         switch("exceptions", "setjmp")
+
 
     switch("passC", "-flto")
     switch("o", "nca")
