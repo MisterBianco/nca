@@ -1,7 +1,5 @@
 import
-  keyring,
-  posix,
-  terminal
+  posix, keyring, terminal
 
 
 let

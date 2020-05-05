@@ -18,10 +18,35 @@ If you are on mac osx you can grab the release executable from the github releas
 git clone https://github.com/misterbianco/nca
 ```
 
-Then to build:
+#### Building
 
 ```bash
-nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand src/nca.nim
+nim build src/nca.nim
+```
+
+If you want the most optimized binary:
+
+```bash
+nim build -d:danger -d:arc src/nca.nim
+```
+
+AND if you have an old phone @hikr17 I am looking at you
+you can use sms instead of push notifications with the following switch
+
+```bash
+nim build -d:sms src/nca.nim
+```
+
+to strip the binary:
+
+```bash
+nim strip
+```
+
+and to pack the binary:
+
+```bash
+nim pack
 ```
 
 and then run:

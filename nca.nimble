@@ -1,7 +1,6 @@
 # Package
 import 
-    strutils,
-    strformat
+    strutils, strformat
 
 version       = readFile("VERSION").strip()
 license       = readFile("LICENSE")
@@ -14,12 +13,7 @@ bin           = @["nca"]
 # Dependencies
 requires "nim >= 1.2.0"
 requires "keyring >= 0.1.1"
-requires "shell >= 0.3.0"
-
-task install, "Build and install with optimized defaults":
-    exec "nim c -o:nca -d:danger -d:release --opt:size -d:shellNoDebugCommand --passc:-flto src/nca.nim"
-    exec "strip nca"
-    exec "mv nca /usr/local/bin"
+requires "nake >= 0.1.0"
 
 
 task release, "Build and publish a release":

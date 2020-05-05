@@ -1,24 +1,26 @@
-import shell # DSL for shell commands
+import 
+  osproc
 
-proc connect*(connStr: string, profile: string) =
-  shell:
-    pipe:
-      printf ($connStr)
-      "/opt/cisco/anyconnect/bin/vpn -s connect" ($profile)
 
-proc disconnect*() =
-  shell:
-    one:
-      "/opt/cisco/anyconnect/bin/vpn disconnect"
+const
+  command = "/opt/cisco/anyconnect/bin/vpn"
 
-proc profiles*() =
-  shell:
-    pipe:
-      "/opt/cisco/anyconnect/bin/vpn hosts"
-      """grep ">""""
-      """cut -d " " -f 6"""
 
-proc status*() =
-  shell:
-    one:
-      "/opt/cisco/anyconnect/bin/vpn status"
+proc connect*(connStr: string, profile: string) {.raises: [Exception].} =
+  echo execProcess(
+    "printf " & connStr & " | " & 
+    command & " -s connect " & profile
+  )
+
+
+proc disconnect*() {.raises: [Exception].} =
+  echo execProcess(command & " hosts")
+
+
+proc profiles*() {.raises: [Exception].} =
+  echo execProcess(command & " hosts | grep \">\" | cut -d \" \" -f 6")
+
+
+proc status*() {.raises: [Exception].} =
+  echo execProcess(command & " status")
+
