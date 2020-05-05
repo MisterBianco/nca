@@ -25,7 +25,7 @@ task release, "Build and publish a release":
     exec "git add ."
     exec "git commit -m 'release commit'"
     exec "git push"
-    exec "nim c -o:nca --gc:arc --exceptions:setjmp -d:danger -d:release --opt:size -d:shellNoDebugCommand --passc:-flto src/nca.nim"
+    exec "nim build -d:arc -d:danger src/nca.nim"
     exec "strip nca"
     exec "upx nca"
     exec fmt"github-release create -t $GITHUB_TOKEN -o misterbianco -r nca --tag v{version}"
